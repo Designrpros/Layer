@@ -2,7 +2,7 @@
 
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
-import Toolbar from "../components/Toolbar"; // Adjust path as needed
+import Toolbar from "./components/Toolbar"; // Adjust path as needed
 
 // === Theme ===
 const theme = {

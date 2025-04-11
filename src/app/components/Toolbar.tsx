@@ -57,15 +57,11 @@ const Logo = styled(Link)`
 `;
 
 const NavLinks = styled.div`
-  display: flex;
+  display: none; /* Always hidden, burger icon takes over */
   gap: 1.5rem;
   align-items: center;
   justify-content: flex-end;
   flex: 1;
-
-  @media (max-width: 600px) {
-    display: none;
-  }
 `;
 
 const NavLink = styled(Link)`
@@ -101,16 +97,12 @@ const NavLink = styled(Link)`
 `;
 
 const BurgerIcon = styled.div<{ $isOpen: boolean }>`
-  display: none;
+  display: flex; /* Always visible, no media query */
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
   z-index: 1002; /* Above MobileMenu */
   padding: 0.75rem; /* Larger tap area */
-
-  @media (max-width: 600px) {
-    display: flex;
-  }
 
   div {
     width: 25px;
@@ -153,10 +145,6 @@ const MobileMenu = styled.div<{ $isOpen: boolean }>`
   padding: 2rem 0;
   box-sizing: border-box;
   overflow-y: auto;
-
-  @media (min-width: 650px) {
-    display: none;
-  }
 
   @media (max-width: 480px) {
     padding: 1.5rem 0;
@@ -232,6 +220,7 @@ const Toolbar: React.FC = () => {
           <NavLink href="/vscode">VSCode</NavLink>
           <NavLink href="/nextjs">Next.js</NavLink>
           <NavLink href="/styled-components">Styled Components</NavLink>
+          <NavLink href="/template">Template</NavLink>
           <NavLink href="/projects">Projects</NavLink>
           <NavLink href="/resources">Resources</NavLink>
           <NavLink href="/index-page">Index</NavLink>
@@ -254,6 +243,9 @@ const Toolbar: React.FC = () => {
         </MobileNavLink>
         <MobileNavLink href="/styled-components" onClick={toggleMenu}>
           Styled Components
+        </MobileNavLink>
+        <MobileNavLink href="/template" onClick={toggleMenu}>
+          Template
         </MobileNavLink>
         <MobileNavLink href="/projects" onClick={toggleMenu}>
           Projects

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import Toolbar from "../../components/Toolbar";
+import Toolbar from "../components/Toolbar";
 
 // === Theme (Fully Light) ===
 const theme = {
@@ -405,40 +405,38 @@ export default function Resources() {
   ];
 
   return (
-    <ThemeProvider theme={theme}>
-      <ResourcesContainer>
-        <Toolbar />
-        <Title>Resources</Title>
-        <IntroText>
-          Explore a curated collection of tools, docs, and guides to supercharge your web development journey with VSCode, Next.js, and Styled Components.
-        </IntroText>
-        {categories.map((category, index) => (
-          <CategorySection key={index}>
-            <CategoryHeader onClick={() => toggleCategory(index)}>
-              <CategoryTitle>{category.title}</CategoryTitle>
-              <ToggleIcon>{openCategories[index] ? "−" : "+"}</ToggleIcon>
-            </CategoryHeader>
-            <CategoryContent isOpen={!!openCategories[index]}>
-              {category.resources.map((resource, resourceIndex) => (
-                <ResourceCard key={resourceIndex}>
-                  <ResourceTitle>
-                    <ResourceLink href={resource.link} target="_blank" rel="noopener noreferrer">
-                      {resource.title}
-                    </ResourceLink>
-                  </ResourceTitle>
-                  <ResourceDescription>{resource.description}</ResourceDescription>
-                </ResourceCard>
-              ))}
-            </CategoryContent>
-          </CategorySection>
-        ))}
-        <ReferencesSection>
-          <ReferencesTitle>References</ReferencesTitle>
-          <ReferencesText>
-            These resources are hand-picked to align with your learning path. Dive in and level up your skills!
-          </ReferencesText>
-        </ReferencesSection>
-      </ResourcesContainer>
-    </ThemeProvider>
+    <ResourcesContainer>
+      <Toolbar />
+      <Title>Resources</Title>
+      <IntroText>
+        Explore a curated collection of tools, docs, and guides to supercharge your web development journey with VSCode, Next.js, and Styled Components.
+      </IntroText>
+      {categories.map((category, index) => (
+        <CategorySection key={index}>
+          <CategoryHeader onClick={() => toggleCategory(index)}>
+            <CategoryTitle>{category.title}</CategoryTitle>
+            <ToggleIcon>{openCategories[index] ? "−" : "+"}</ToggleIcon>
+          </CategoryHeader>
+          <CategoryContent isOpen={!!openCategories[index]}>
+            {category.resources.map((resource, resourceIndex) => (
+              <ResourceCard key={resourceIndex}>
+                <ResourceTitle>
+                  <ResourceLink href={resource.link} target="_blank" rel="noopener noreferrer">
+                    {resource.title}
+                  </ResourceLink>
+                </ResourceTitle>
+                <ResourceDescription>{resource.description}</ResourceDescription>
+              </ResourceCard>
+            ))}
+          </CategoryContent>
+        </CategorySection>
+      ))}
+      <ReferencesSection>
+        <ReferencesTitle>References</ReferencesTitle>
+        <ReferencesText>
+          These resources are hand-picked to align with your learning path. Dive in and level up your skills!
+        </ReferencesText>
+      </ReferencesSection>
+    </ResourcesContainer>
   );
 }
