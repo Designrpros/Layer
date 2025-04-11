@@ -1,113 +1,167 @@
 // app/template/example/toolbarCode.ts
 const toolbarCode = `# Toolbar Example
 \`\`\`tsx
-// app/template/components/Toolbar.tsx
+// src/components/Toolbar.tsx
 "use client";
 
 import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { theme } from "../lib/theme"; 
 
-const Nav = styled.nav\`
-  background: #1a202c;
+const ToolbarContainer = styled.nav\`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem 2rem;
+  background-color: \${theme.colors.backgroundDark};
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   z-index: 1000;
-\`;
-
-const NavContent = styled.div\`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
+  box-sizing: border-box;
+  min-height: 60px;
 \`;
 
 const Logo = styled(Link)\`
-  color: #edf2f7;
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: \${theme.colors.textDark};
   text-decoration: none;
-  &:hover { color: #a0aec0; }
-\`;
-
-const MenuButton = styled.button\`
-  background: none;
-  border: none;
-  color: #edf2f7;
-  font-size: 1.25rem;
-  cursor: pointer;
-  display: none;
-  @media (max-width: 768px) {
-    display: block;
+  transition: color 0.3s ease;
+  &:hover {
+    color: \${theme.colors.textLight};
   }
 \`;
 
-const Tabs = styled.div<{ isOpen: boolean }>\`
+const NavLinks = styled.div\`
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
+  align-items: center;
+
   @media (max-width: 768px) {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 250px;
-    height: 100%;
-    background: #2d3748;
-    flex-direction: column;
-    padding: 4rem 2rem;
-    transform: translateX(\${({ isOpen }) => (isOpen ? "0" : "100%")});
-    transition: transform 0.3s ease;
+    display: none; /* Hide tabs on smaller screens */
   }
 \`;
 
-const Tab = styled(Link)<{ active: boolean }>\`
-  color: \${({ active }) => (active ? "#63b3ed" : "#e2e8f0")};
+const NavLink = styled(Link)\`
   font-size: 1.1rem;
+  font-weight: 500;
+  color: \${theme.colors.textDark};
   text-decoration: none;
-  padding: 0.5rem 0;
-  &:hover { color: #63b3ed; }
+  transition: color 0.3s ease;
+  &:hover {
+    color: \${theme.colors.primary};
+  }
+\`;
+
+const BurgerIcon = styled.div<{ $isOpen: boolean }>\`
+  display: none; /* Hidden on larger screens */
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0.5rem;
+
+  @media (max-width: 768px) {
+    display: flex; /* Show on smaller screens */
+  }
+
+  div {
+    width: 25px;
+    height: 3px;
+    background-color: \${theme.colors.textDark};
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  \${({ $isOpen }) =>
+    $isOpen &&
+    \`
+    div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    div:nth-child(2) {
+      opacity: 0;
+    }
+    div:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+  \`}
+\`;
+
+const MobileMenu = styled.div<{ $isOpen: boolean }>\`
+  display: \${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: \${theme.colors.backgroundContent};
+  padding: 2rem 0;
+  z-index: 999;
+  transition: opacity 0.3s ease;
+
+  @media (min-width: 769px) {
+    display: none; /* Hide on larger screens */
+  }
+\`;
+
+const MobileNavLink = styled(Link)\`
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: \${theme.colors.textDark};
+  text-decoration: none;
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+  transition: color 0.3s ease;
+  &:hover {
+    color: \${theme.colors.primary};
+  }
 \`;
 
 export default function Toolbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Home");
 
-  const tabs = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const toggleMenu = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   return (
-    <Nav>
-      <NavContent>
+    <>
+      <ToolbarContainer>
         <Logo href="/">My App</Logo>
-        <MenuButton onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? "✕" : "☰"}
-        </MenuButton>
-        <Tabs isOpen={isOpen}>
-          {tabs.map((tab) => (
-            <Tab
-              key={tab.name}
-              href={tab.href}
-              active={activeTab === tab.name}
-              onClick={() => setActiveTab(tab.name)}
-            >
-              {tab.name}
-            </Tab>
-          ))}
-        </Tabs>
-      </NavContent>
-    </Nav>
+        <NavLinks>
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/template">Guide</NavLink>
+        </NavLinks>
+        <BurgerIcon $isOpen={isOpen} onClick={toggleMenu}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </BurgerIcon>
+      </ToolbarContainer>
+      <MobileMenu $isOpen={isOpen}>
+        <MobileNavLink href="/" onClick={toggleMenu}>
+          Home
+        </MobileNavLink>
+        <MobileNavLink href="/template" onClick={toggleMenu}>
+          Guide
+        </MobileNavLink>
+      </MobileMenu>
+    </>
   );
 }
 \`\`\`
 
 ### How It Works:
-- Responsive sidebar for mobile with smooth slide-in animation.
-- Logo links to home with bold styling.
-- Tabs remain inline on desktop, collapse to sidebar on mobile.
+- A responsive toolbar with two tabs: "Home" and "Guide".
+- On larger screens (>768px), tabs display inline next to the logo.
+- On smaller screens (≤768px), tabs hide, and a burger icon toggles a mobile menu.
+- Uses theme colors for consistency: dark background, light text, and primary accents.
+- Smooth transitions for hover effects and menu toggle.
 `;
+
 export default toolbarCode;

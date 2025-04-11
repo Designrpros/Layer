@@ -1,6 +1,6 @@
 import "./globals.css";
-import Toolbar from "./components/Toolbar";
-import ChatBot from "./components/ChatBot";
+import Toolbar from "../components/Toolbar";
+import ChatBot from "../components/ChatBot";
 import StyledComponentsRegistry from "./styled-components-registry";
 
 export const metadata = {

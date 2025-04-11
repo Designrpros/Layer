@@ -1,5 +1,5 @@
 // app/template/example/templatePageCode.ts
-const templatePageCode = `# Guide Page Example
+const templatePageCode = `# Template Page Example
 \`\`\`tsx
 // app/template/page.tsx
 "use client";

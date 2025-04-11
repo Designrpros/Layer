@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Image from "next/image";
-import Toolbar from "../components/Toolbar";
+import Toolbar from "../../components/Toolbar";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";

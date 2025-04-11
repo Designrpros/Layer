@@ -245,7 +245,7 @@ const Toolbar: React.FC = () => {
           Styled Components
         </MobileNavLink>
         <MobileNavLink href="/template" onClick={toggleMenu}>
-          Template
+          Setup
         </MobileNavLink>
         <MobileNavLink href="/projects" onClick={toggleMenu}>
           Projects

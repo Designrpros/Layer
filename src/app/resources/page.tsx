@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import Toolbar from "../components/Toolbar";
+import Toolbar from "../../components/Toolbar";
 
 // === Theme (Fully Light) ===
 const theme = {
