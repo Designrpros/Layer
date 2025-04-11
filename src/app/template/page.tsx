@@ -171,7 +171,7 @@ export default function TemplatePage() {
           useCase: "Ensure you’re ready to execute commands within VSCode.",
           example: `
 - Launch Visual Studio Code.
-- Open the integrated terminal in VSCode: \`View > Terminal\` or press \`Ctrl + \`\` (backtick)\`.
+- Open the integrated terminal in VSCode: \`View > Terminal\` or press \`Cmd + \J\`.
 `,
           proTip: "Use VSCode’s terminal to keep all your work in one place.",
         },

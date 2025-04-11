@@ -1,26 +1,16 @@
+// src/app/vscode/page.tsx
 "use client";
 
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Image from "next/image";
-import Toolbar from "../../components/Toolbar";
+import Toolbar from "../../components/Toolbar"; // Adjusted to src/components/Toolbar
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
-
-// === Theme ===
-const theme = {
-  colors: {
-    backgroundLight: "#F7F4E9",
-    backgroundDark: "#2A2A2A",
-    backgroundContent: "#E8E2D1",
-    primary: "#1C2526",
-    textLight: "#333333",
-    textDark: "#FFFFFF",
-  },
-};
+import { theme } from "../../lib/theme"; // Adjusted to src/lib/theme
 
 // === Global Box Sizing Reset ===
 const GlobalStyle = styled.div`
@@ -445,7 +435,7 @@ const TopicCard: React.FC<{
 };
 
 // === Main Component ===
-const VSCode: React.FC = () => {
+export default function VSCode() {
   const [openTopics, setOpenTopics] = useState<{ [key: number]: boolean }>({});
 
   const toggleTopic = (index: number) => {
@@ -526,7 +516,7 @@ const VSCode: React.FC = () => {
           useCase:
             "Great for troubleshooting JavaScript or Next.js apps when something isn’t working as expected.",
           example:
-            "Add a breakpoint by clicking left of a line number, then start debugging:\n\n```tsx\n// pages/index.tsx\nexport default function Home() {\n  let count = 0;\n  console.log(count); // Breakpoint here\n  return <div>Hello</div>;\n}\n```",
+            "Add a breakpoint by clicking left of a line number, then start debugging:\n\n```tsx\n// app/page.tsx\n'use client';\n\nexport default function Home() {\n  let count = 0;\n  console.log(count); // Breakpoint here\n  return <div>Hello</div>;\n}\n```",
           proTip:
             "Press F5 to start debugging and F10 to step over code—watch the Variables panel for live updates.",
           subpage: "/vscode/debugging",
@@ -569,7 +559,7 @@ const VSCode: React.FC = () => {
           useCase:
             "Ideal for boilerplate code like React components or Styled Components definitions.",
           example:
-            "Type 'rfc' with the React snippets extension and press Tab:\n\n```tsx\nexport default function Component() {\n  return <div></div>;\n}\n```",
+            "Type 'rfc' with the React snippets extension and press Tab:\n\n```tsx\n'use client';\n\nexport default function Component() {\n  return <div></div>;\n}\n```",
           proTip:
             "Create custom snippets in VSCode settings under 'Configure User Snippets' for your frequent code blocks.",
           subpage: "/vscode/snippets",
@@ -587,7 +577,7 @@ const VSCode: React.FC = () => {
             <HeroImage
               src="/visual-studio-code.svg" // Replace with a VSCode-themed hero image
               alt="VSCode Hero"
-              layout="fill"
+              fill
               priority
             />
             <HeroText>
@@ -655,6 +645,4 @@ const VSCode: React.FC = () => {
       </ThemeProvider>
     </GlobalStyle>
   );
-};
-
-export default VSCode;
+}

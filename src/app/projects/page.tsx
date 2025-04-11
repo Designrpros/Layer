@@ -1,26 +1,16 @@
+// src/app/projects/page.tsx
 "use client";
 
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Image from "next/image";
-import Toolbar from "../../components/Toolbar";
+import Toolbar from "../../components/Toolbar"; // Adjusted to src/components/Toolbar
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
-
-// === Theme ===
-const theme = {
-  colors: {
-    backgroundLight: "#F7F4E9",
-    backgroundDark: "#2A2A2A",
-    backgroundContent: "#E8E2D1",
-    primary: "#1C2526",
-    textLight: "#333333",
-    textDark: "#FFFFFF",
-  },
-};
+import { theme } from "../../lib/theme";
 
 // === Global Box Sizing Reset ===
 const GlobalStyle = styled.div`
@@ -446,7 +436,7 @@ const TopicCard: React.FC<{
 };
 
 // === Main Component ===
-const Projects: React.FC = () => {
+export default function Projects() {
   const [openTopics, setOpenTopics] = useState<{ [key: number]: boolean }>({});
 
   const toggleTopic = (index: number) => {
@@ -467,7 +457,7 @@ const Projects: React.FC = () => {
           useCase:
             "Ideal for beginners to practice basic routing, styling, and static content deployment.",
           example:
-            "Set up a portfolio home page in `pages/index.tsx`:\n\n```tsx\n// pages/index.tsx\nimport styled from 'styled-components';\n\nconst Hero = styled.section`\n  padding: 50px;\n  background: #F7F4E9;\n  text-align: center;\n`;\n\nexport default function Home() {\n  return (\n    <Hero>\n      <h1>Hi, I’m [Your Name]</h1>\n      <p>Web Developer</p>\n    </Hero>\n  );\n}\n```",
+            "Set up a portfolio home page in `app/page.tsx`:\n\n```tsx\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Hero = styled.section`\n  padding: 50px;\n  background: #F7F4E9;\n  text-align: center;\n`;\n\nexport default function Home() {\n  return (\n    <Hero>\n      <h1>Hi, I’m [Your Name]</h1>\n      <p>Web Developer</p>\n    </Hero>\n  );\n}\n```",
           proTip:
             "Use Next.js’s `<Image>` component for optimized profile photos—set `priority` for fast loading.",
           subpage: "/projects/portfolio",
@@ -486,7 +476,7 @@ const Projects: React.FC = () => {
           useCase:
             "Great for learning static site generation, API integration, and responsive design.",
           example:
-            "Fetch blog posts in `pages/index.tsx`:\n\n```tsx\n// pages/index.tsx\nimport styled from 'styled-components';\n\nconst Post = styled.article`\n  padding: 20px;\n  background: #E8E2D1;\n  margin-bottom: 20px;\n`;\n\nexport async function getStaticProps() {\n  const res = await fetch('https://jsonplaceholder.typicode.com/posts');\n  const posts = await res.json();\n  return { props: { posts } };\n}\n\nexport default function Blog({ posts }) {\n  return (\n    <div>\n      {posts.slice(0, 5).map(post => (\n        <Post key={post.id}>\n          <h2>{post.title}</h2>\n          <p>{post.body}</p>\n        </Post>\n      ))}\n    </div>\n  );\n}\n```",
+            "Fetch blog posts in `app/page.tsx`:\n\n```tsx\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Post = styled.article`\n  padding: 20px;\n  background: #E8E2D1;\n  margin-bottom: 20px;\n`;\n\nexport async function getStaticProps() {\n  const res = await fetch('https://jsonplaceholder.typicode.com/posts');\n  const posts = await res.json();\n  return { props: { posts } };\n}\n\nexport default function Blog({ posts }) {\n  return (\n    <div>\n      {posts.slice(0, 5).map(post => (\n        <Post key={post.id}>\n          <h2>{post.title}</h2>\n          <p>{post.body}</p>\n        </Post>\n      ))}\n    </div>\n  );\n}\n```",
           proTip:
             "Add a `revalidate` option in `getStaticProps` to refresh posts periodically without rebuilding.",
           subpage: "/projects/blog",
@@ -498,7 +488,7 @@ const Projects: React.FC = () => {
           useCase:
             "Perfect for practicing full-stack development within a single Next.js app.",
           example:
-            "Create an API route in `pages/api/todos.ts` and a styled todo list:\n\n```tsx\n// pages/api/todos.ts\nexport default function handler(req, res) {\n  const todos = [{ id: 1, text: 'Learn Next.js' }];\n  res.status(200).json(todos);\n}\n\n// pages/index.tsx\nimport styled from 'styled-components';\n\nconst Todo = styled.li`\n  padding: 10px;\n  background: #1C2526;\n  color: #fff;\n  margin: 5px 0;\n`;\n\nexport async function getServerSideProps() {\n  const res = await fetch('http://localhost:3000/api/todos');\n  const todos = await res.json();\n  return { props: { todos } };\n}\n\nexport default function Home({ todos }) {\n  return (\n    <ul>\n      {todos.map(todo => <Todo key={todo.id}>{todo.text}</Todo>)}\n    </ul>\n  );\n}\n```",
+            "Create an API route in `app/api/todos/route.ts` and a styled todo list:\n\n```tsx\n// app/api/todos/route.ts\nexport async function GET(req) {\n  const todos = [{ id: 1, text: 'Learn Next.js' }];\n  return new Response(JSON.stringify(todos), { status: 200 });\n}\n\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Todo = styled.li`\n  padding: 10px;\n  background: #1C2526;\n  color: #fff;\n  margin: 5px 0;\n`;\n\nexport async function getServerSideProps() {\n  const res = await fetch('http://localhost:3000/api/todos');\n  const todos = await res.json();\n  return { props: { todos } };\n}\n\nexport default function Home({ todos }) {\n  return (\n    <ul>\n      {todos.map(todo => <Todo key={todo.id}>{todo.text}</Todo>)}\n    </ul>\n  );\n}\n```",
           proTip:
             "Use VSCode’s debugger to step through the API route and client code for easier troubleshooting.",
           subpage: undefined,
@@ -515,7 +505,7 @@ const Projects: React.FC = () => {
           useCase:
             "Use this to master dynamic routing, data fetching, and a cohesive design system.",
           example:
-            "Set up a product page in `pages/products/[id].tsx`:\n\n```tsx\n// pages/products/[id].tsx\nimport styled from 'styled-components';\n\nconst ProductCard = styled.div`\n  padding: 20px;\n  background: #E8E2D1;\n  border-radius: 8px;\n`;\n\nexport async function getStaticPaths() {\n  return { paths: [{ params: { id: '1' } }], fallback: 'blocking' };\n}\n\nexport async function getStaticProps({ params }) {\n  const product = { id: params.id, name: 'Sample Product', price: 29.99 };\n  return { props: { product } };\n}\n\nexport default function Product({ product }) {\n  return (\n    <ProductCard>\n      <h1>{product.name}</h1>\n      <p>${product.price}</p>\n    </ProductCard>\n  );\n}\n```",
+            "Set up a product page in `app/products/[id]/page.tsx`:\n\n```tsx\n// app/products/[id]/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst ProductCard = styled.div`\n  padding: 20px;\n  background: #E8E2D1;\n  border-radius: 8px;\n`;\n\nexport async function getStaticPaths() {\n  return { paths: [{ params: { id: '1' } }], fallback: 'blocking' };\n}\n\nexport async function getStaticProps({ params }) {\n  const product = { id: params.id, name: 'Sample Product', price: 29.99 };\n  return { props: { product } };\n}\n\nexport default function Product({ product }) {\n  return (\n    <ProductCard>\n      <h1>{product.name}</h1>\n      <p>${product.price}</p>\n    </ProductCard>\n  );\n}\n```",
           proTip:
             "Add a global theme with Styled Components to keep product styles consistent across pages.",
           subpage: "/projects/ecommerce",
@@ -527,7 +517,7 @@ const Projects: React.FC = () => {
           useCase:
             "Ideal for learning SSR, API integration, and creating interactive, styled UIs.",
           example:
-            "Fetch user data in `pages/dashboard.tsx`:\n\n```tsx\n// pages/dashboard.tsx\nimport styled from 'styled-components';\n\nconst Dashboard = styled.div`\n  padding: 30px;\n  background: #F7F4E9;\n`;\n\nexport async function getServerSideProps() {\n  const res = await fetch('https://api.example.com/user');\n  const user = await res.json();\n  return { props: { user } };\n}\n\nexport default function DashboardPage({ user }) {\n  return (\n    <Dashboard>\n      <h1>Welcome, {user.name}</h1>\n      <p>Email: {user.email}</p>\n    </Dashboard>\n  );\n}\n```",
+            "Fetch user data in `app/dashboard/page.tsx`:\n\n```tsx\n// app/dashboard/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Dashboard = styled.div`\n  padding: 30px;\n  background: #F7F4E9;\n`;\n\nexport async function getServerSideProps() {\n  const res = await fetch('https://api.example.com/user');\n  const user = await res.json();\n  return { props: { user } };\n}\n\nexport default function DashboardPage({ user }) {\n  return (\n    <Dashboard>\n      <h1>Welcome, {user.name}</h1>\n      <p>Email: {user.email}</p>\n    </Dashboard>\n  );\n}\n```",
           proTip:
             "Use VSCode’s multi-cursor editing to quickly style multiple dashboard elements at once.",
           subpage: undefined,
@@ -546,7 +536,7 @@ const Projects: React.FC = () => {
           useCase:
             "Perfect as a showcase project to demonstrate full-stack skills and design sensibility.",
           example:
-            "Set up an auth API in `pages/api/login.ts` and a styled login page:\n\n```tsx\n// pages/api/login.ts\nexport default function handler(req, res) {\n  if (req.method === 'POST') {\n    const { username } = req.body;\n    res.status(200).json({ user: { name: username } });\n  }\n}\n\n// pages/login.tsx\nimport styled from 'styled-components';\n\nconst Form = styled.form`\n  padding: 20px;\n  background: #E8E2D1;\n  border-radius: 8px;\n`;\n\nexport default function Login() {\n  return (\n    <Form>\n      <input type=\"text\" placeholder=\"Username\" />\n      <button>Login</button>\n    </Form>\n  );\n}\n```",
+            "Set up an auth API in `app/api/login/route.ts` and a styled login page:\n\n```tsx\n// app/api/login/route.ts\nexport async function POST(req) {\n  const { username } = await req.json();\n  return new Response(JSON.stringify({ user: { name: username } }), { status: 200 });\n}\n\n// app/login/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Form = styled.form`\n  padding: 20px;\n  background: #E8E2D1;\n  border-radius: 8px;\n`;\n\nexport default function Login() {\n  return (\n    <Form>\n      <input type=\"text\" placeholder=\"Username\" />\n      <button>Login</button>\n    </Form>\n  );\n}\n```",
           proTip:
             "Add TypeScript and a global theme to make your project production-ready and maintainable.",
           subpage: "/projects/fullstack-blog",
@@ -564,7 +554,7 @@ const Projects: React.FC = () => {
             <HeroImage
               src="/projects-hero.jpg" // Replace with a projects-themed hero image
               alt="Projects Hero"
-              layout="fill"
+              fill
               priority
             />
             <HeroText>
@@ -632,6 +622,4 @@ const Projects: React.FC = () => {
       </ThemeProvider>
     </GlobalStyle>
   );
-};
-
-export default Projects;
+}

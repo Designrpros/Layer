@@ -1,17 +1,9 @@
+// src/app/index-page/Sidebar.tsx
+"use client";
+
 import styled from "styled-components";
 import Link from "next/link";
-
-// === Theme ===
-const theme = {
-  colors: {
-    backgroundLight: "#F7F4E9", // Beige background
-    backgroundDark: "#2A2A2A", // Dark gray
-    backgroundContent: "#E8E2D1", // Muted beige
-    primary: "#1C2526", // Dark charcoal
-    textLight: "#333333", // Dark gray text
-    textDark: "#FFFFFF", // White text
-  },
-};
+import { theme } from "../../lib/theme"; // Adjusted to src/lib/theme
 
 // === Styled Components ===
 const SidebarContainer = styled.div`
@@ -93,20 +85,22 @@ const SidebarLink = styled(Link)`
 // === Sidebar Component ===
 const Sidebar: React.FC = () => {
   const sections = [
-    { id: "welcome", title: "Welcome" },
-    { id: "html-basics", title: "HTML Basics" },
-    { id: "css-essentials", title: "CSS Essentials" },
-    { id: "js-intro", title: "JavaScript Intro" },
-    { id: "vscode-setup", title: "VSCode Setup" },
-    { id: "nextjs-routing", title: "Next.js Routing" },
-    { id: "styled-components", title: "Styled Components" },
-    { id: "responsive-design", title: "Responsive Design" },
-    { id: "project-structure", title: "Project Structure" },
-    { id: "data-fetching", title: "Data Fetching" },
-    { id: "optimization", title: "Optimization" },
-    { id: "typescript", title: "TypeScript" },
-    { id: "debugging", title: "Debugging" },
-    { id: "deployment", title: "Deployment" },
+    { id: "welcome", title: "Welcome", route: "/index-page#welcome" },
+    { id: "html-basics", title: "HTML Basics", route: "/basics#html-basics" },
+    { id: "css-essentials", title: "CSS Essentials", route: "/basics#css-essentials" },
+    { id: "js-intro", title: "JavaScript Intro", route: "/basics#js-intro" },
+    { id: "vscode-setup", title: "VSCode Setup", route: "/vscode#vscode-setup" },
+    { id: "nextjs-routing", title: "Next.js Routing", route: "/nextjs#nextjs-routing" },
+    { id: "styled-components", title: "Styled Components", route: "/styled-components#styled-components" },
+    { id: "responsive-design", title: "Responsive Design", route: "/index-page#responsive-design" },
+    { id: "project-structure", title: "Project Structure", route: "/index-page#project-structure" },
+    { id: "data-fetching", title: "Data Fetching", route: "/nextjs#data-fetching" },
+    { id: "optimization", title: "Optimization", route: "/nextjs#optimization" },
+    { id: "typescript", title: "TypeScript", route: "/nextjs#typescript" },
+    { id: "debugging", title: "Debugging", route: "/vscode#debugging" },
+    { id: "deployment", title: "Deployment", route: "/index-page#deployment" },
+    { id: "projects", title: "Projects", route: "/projects" },
+    { id: "guide", title: "Guide", route: "/template" },
   ];
 
   return (
@@ -115,7 +109,7 @@ const Sidebar: React.FC = () => {
       <SidebarList>
         {sections.map((section) => (
           <SidebarListItem key={section.id}>
-            <SidebarLink href={`#${section.id}`}>{section.title}</SidebarLink>
+            <SidebarLink href={section.route}>{section.title}</SidebarLink>
           </SidebarListItem>
         ))}
       </SidebarList>

@@ -1,26 +1,16 @@
+// src/app/nextjs/page.tsx
 "use client";
 
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Image from "next/image";
-import Toolbar from "../../components/Toolbar";
+import Toolbar from "../../components/Toolbar"; // Adjusted to src/components/Toolbar
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
-
-// === Theme ===
-const theme = {
-  colors: {
-    backgroundLight: "#F7F4E9",
-    backgroundDark: "#2A2A2A",
-    backgroundContent: "#E8E2D1",
-    primary: "#1C2526",
-    textLight: "#333333",
-    textDark: "#FFFFFF",
-  },
-};
+import { theme } from "../../lib/theme"; // Adjusted to src/lib/theme
 
 // === Global Box Sizing Reset ===
 const GlobalStyle = styled.div`
@@ -37,7 +27,7 @@ const PageContainer = styled.div`
   min-height: 100vh;
   font-family: "Montserrat", sans-serif;
   overflow-x: hidden;
-  background: ${theme.colors.backgroundLight};
+  background: ${theme.colors.backgroundLight}; // Uses #F7F4E9
   margin: 0;
 `;
 
@@ -95,7 +85,7 @@ const HeroText = styled.div`
 const HeroTitle = styled.h1`
   font-size: 4rem;
   font-weight: 700;
-  color: ${theme.colors.textDark};
+  color: ${theme.colors.textDark}; // Uses #FFFFFF
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   margin: 0;
 
@@ -126,7 +116,7 @@ const HeroTitle = styled.h1`
 
 const HeroSubtitle = styled.p`
   font-size: 1.5rem;
-  color: ${theme.colors.textDark};
+  color: ${theme.colors.textDark}; // Uses #FFFFFF
   margin-top: 1rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 
@@ -228,7 +218,7 @@ const Section = styled.section`
 const SectionTitle = styled.h2`
   font-size: 2.5rem;
   font-weight: 700;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.primary}; // Uses #1C2526
   margin-bottom: 1rem;
   border-bottom: 2px solid ${theme.colors.primary};
   padding-bottom: 0.5rem;
@@ -273,7 +263,7 @@ const SectionTitle = styled.h2`
 
 const LargeText = styled.div`
   font-size: 1.25rem;
-  color: ${theme.colors.textLight};
+  color: ${theme.colors.textLight}; // Uses #333333
   line-height: 1.8;
   margin-bottom: 1.5rem;
   max-width: 100%;
@@ -322,7 +312,7 @@ const LargeText = styled.div`
 
 // === TopicCard Component ===
 const Card = styled.div<{ $isOpen: boolean }>`
-  background: ${theme.colors.backgroundContent};
+  background: ${theme.colors.backgroundContent}; // Uses #E8E2D1
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -330,7 +320,7 @@ const Card = styled.div<{ $isOpen: boolean }>`
   transition: all 0.3s ease;
 
   &:hover {
-    background: ${theme.colors.backgroundLight};
+    background: ${theme.colors.backgroundLight}; // Uses #F7F4E9
   }
 `;
 
@@ -338,12 +328,12 @@ const CardTitle = styled.h3`
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.primary}; // Uses #1C2526
 `;
 
 const CardContent = styled.div<{ $isOpen: boolean }>`
   font-size: 1rem;
-  color: ${theme.colors.textLight};
+  color: ${theme.colors.textLight}; // Uses #333333
   line-height: 1.6;
   margin-top: ${({ $isOpen }) => ($isOpen ? "1rem" : "0")};
   max-height: ${({ $isOpen }) => ($isOpen ? "1000px" : "0")};
@@ -361,21 +351,21 @@ const CardField = styled.div`
 
 const FieldLabel = styled.span`
   font-weight: 600;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.primary}; // Uses #1C2526
 `;
 
 const DiveDeeperButton = styled(Link)`
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textDark};
+  background: ${theme.colors.primary}; // Uses #1C2526
+  color: ${theme.colors.textDark}; // Uses #FFFFFF
   text-decoration: none;
   border-radius: 4px;
   margin-top: 1rem;
   transition: background 0.3s ease;
 
   &:hover {
-    background: ${theme.colors.backgroundDark};
+    background: ${theme.colors.backgroundDark}; // Uses #2A2A2A
   }
 `;
 
@@ -445,7 +435,7 @@ const TopicCard: React.FC<{
 };
 
 // === Main Component ===
-const NextJS: React.FC = () => {
+export default function NextJS() {
   const [openTopics, setOpenTopics] = useState<{ [key: number]: boolean }>({});
 
   const toggleTopic = (index: number) => {
@@ -476,7 +466,7 @@ const NextJS: React.FC = () => {
     {
       title: "Core Features",
       largeText:
-        "Next.js shines with file-based routing, server-side rendering (SSR), and static site generation (SSG). Routing is automatic based on your `pages` folder, SSR delivers dynamic content, and SSG pre-renders pages for performance.",
+        "Next.js shines with file-based routing, server-side rendering (SSR), and static site generation (SSG). Routing is automatic based on your `app` folder, SSR delivers dynamic content, and SSG pre-renders pages for performance.",
       topics: [
         {
           title: "File-Based Routing",
@@ -485,9 +475,9 @@ const NextJS: React.FC = () => {
           useCase:
             "Ideal for quickly setting up routes like `/about` or `/blog` without configuring a router.",
           example:
-            "Add a file named `about.tsx` in the `pages` folder:\n\n```tsx\nexport default function About() {\n  return <h1>About Page</h1>;\n}\n```",
+            "Add a file named `page.tsx` in `app/about/`:\n\n```tsx\n// app/about/page.tsx\n'use client';\n\nexport default function About() {\n  return <h1>About Page</h1>;\n}\n```",
           proTip:
-            "Use dynamic routes with `[id].tsx` for pages like `/post/1`—check the docs for params handling.",
+            "Use dynamic routes with `[id]/page.tsx` for pages like `/post/1`—check the docs for params handling.",
           subpage: "/nextjs/routing",
         },
         {
@@ -497,7 +487,7 @@ const NextJS: React.FC = () => {
           useCase:
             "Use SSR when you need fresh data on each request, like a news feed or user dashboard.",
           example:
-            "Fetch data in `getServerSideProps`:\n\n```tsx\nexport async function getServerSideProps() {\n  const res = await fetch('https://api.example.com/data');\n  const data = await res.json();\n  return { props: { data } };\n}\nexport default function Page({ data }) {\n  return <div>{data.title}</div>;\n}\n```",
+            "Fetch data in `getServerSideProps`:\n\n```tsx\n// app/page.tsx\n'use client';\n\nexport async function getServerSideProps() {\n  const res = await fetch('https://api.example.com/data');\n  const data = await res.json();\n  return { props: { data } };\n}\nexport default function Page({ data }) {\n  return <div>{data.title}</div>;\n}\n```",
           proTip:
             "Keep `getServerSideProps` lightweight—fetch only what’s needed to avoid slow load times.",
           subpage: undefined,
@@ -509,7 +499,7 @@ const NextJS: React.FC = () => {
           useCase:
             "Perfect for static content like blogs, documentation, or landing pages that don’t change often.",
           example:
-            "Use `getStaticProps` for SSG:\n\n```tsx\nexport async function getStaticProps() {\n  const res = await fetch('https://api.example.com/posts');\n  const posts = await res.json();\n  return { props: { posts } };\n}\nexport default function Blog({ posts }) {\n  return <ul>{posts.map(post => <li key={post.id}>{post.title}</li>)}</ul>;\n}\n```",
+            "Use `getStaticProps` for SSG:\n\n```tsx\n// app/page.tsx\n'use client';\n\nexport async function getStaticProps() {\n  const res = await fetch('https://api.example.com/posts');\n  const posts = await res.json();\n  return { props: { posts } };\n}\nexport default function Blog({ posts }) {\n  return <ul>{posts.map(post => <li key={post.id}>{post.title}</li>)}</ul>;\n}\n```",
           proTip:
             "Combine SSG with revalidation (`revalidate: 10`) to refresh static pages periodically.",
           subpage: undefined,
@@ -526,7 +516,7 @@ const NextJS: React.FC = () => {
           useCase:
             "Use this for simple APIs, like form submissions or data fetching, without a separate server.",
           example:
-            "Create `pages/api/hello.ts`:\n\n```tsx\nexport default function handler(req, res) {\n  res.status(200).json({ message: 'Hello from Next.js!' });\n}\n```",
+            "Create `app/api/hello/route.ts`:\n\n```tsx\n// app/api/hello/route.ts\nexport async function GET(req) {\n  return new Response(JSON.stringify({ message: 'Hello from Next.js!' }), { status: 200 });\n}\n```",
           proTip:
             "Test your API route locally at `http://localhost:3000/api/hello` after running `npm run dev`.",
           subpage: "/nextjs/api-routes",
@@ -538,7 +528,7 @@ const NextJS: React.FC = () => {
           useCase:
             "Great for blog posts, product pages, or anything with variable slugs.",
           example:
-            "Create `pages/post/[id].tsx`:\n\n```tsx\nexport async function getStaticPaths() {\n  return { paths: [{ params: { id: '1' } }], fallback: false };\n}\nexport async function getStaticProps({ params }) {\n  const post = { id: params.id, title: 'Post ' + params.id };\n  return { props: { post } };\n}\nexport default function Post({ post }) {\n  return <h1>{post.title}</h1>;\n}\n```",
+            "Create `app/post/[id]/page.tsx`:\n\n```tsx\n// app/post/[id]/page.tsx\n'use client';\n\nexport async function getStaticPaths() {\n  return { paths: [{ params: { id: '1' } }], fallback: false };\n}\nexport async function getStaticProps({ params }) {\n  const post = { id: params.id, title: 'Post ' + params.id };\n  return { props: { post } };\n}\nexport default function Post({ post }) {\n  return <h1>{post.title}</h1>;\n}\n```",
           proTip:
             "Use `fallback: 'blocking'` in `getStaticPaths` for on-demand static generation of new paths.",
           subpage: undefined,
@@ -557,7 +547,7 @@ const NextJS: React.FC = () => {
           useCase:
             "Perfect for improving performance on image-heavy pages like portfolios or galleries.",
           example:
-            "Add an image to your page:\n\n```tsx\nimport Image from 'next/image';\nexport default function Home() {\n  return <Image src=\"/my-image.jpg\" alt=\"Example\" width={500} height={300} />;\n}\n```",
+            "Add an image to your page:\n\n```tsx\n// app/page.tsx\n'use client';\n\nimport Image from 'next/image';\n\nexport default function Home() {\n  return <Image src=\"/my-image.jpg\" alt=\"Example\" width={500} height={300} />;\n}\n```",
           proTip:
             "Set `priority` on key images above the fold to prioritize their loading.",
           subpage: undefined,
@@ -569,7 +559,7 @@ const NextJS: React.FC = () => {
           useCase:
             "Use this for large projects or teams where type checking prevents bugs.",
           example:
-            "Define a typed component in `pages/index.tsx`:\n\n```tsx\ntype Props = { message: string };\nexport default function Home({ message }: Props) {\n  return <h1>{message}</h1>;\n}\nexport async function getStaticProps() {\n  return { props: { message: 'Hello, Layer!' } };\n}\n```",
+            "Define a typed component in `app/page.tsx`:\n\n```tsx\n// app/page.tsx\n'use client';\n\ntype Props = { message: string };\n\nexport default function Home({ message }: Props) {\n  return <h1>{message}</h1>;\n}\nexport async function getStaticProps() {\n  return { props: { message: 'Hello, Layer!' } };\n}\n```",
           proTip:
             "Run `npm install --save-dev typescript @types/react @types/node` if you didn’t start with TypeScript.",
           subpage: "/nextjs/typescript",
@@ -587,7 +577,7 @@ const NextJS: React.FC = () => {
             <HeroImage
               src="/nextjs.svg" // Replace with a Next.js-themed hero image
               alt="Next.js Hero"
-              layout="fill"
+              fill
               priority
             />
             <HeroText>
@@ -655,6 +645,4 @@ const NextJS: React.FC = () => {
       </ThemeProvider>
     </GlobalStyle>
   );
-};
-
-export default NextJS;
+}

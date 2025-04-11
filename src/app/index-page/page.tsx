@@ -254,19 +254,19 @@ export default function Index() {
                 <ToggleIcon>{openSections["nextjs-routing"] ? "−" : "+"}</ToggleIcon>
               </SectionHeader>
               <SectionText>
-                Next.js uses file-based routing—`pages/about.js` becomes `/about`. Add a page in VSCode and run `npm run dev`.
+                Next.js leverages the App Router—create `app/about/page.tsx` for the `/about` route. In VSCode, set up a page and run `npm run dev` to test modern routing.
               </SectionText>
               <SectionContent isOpen={openSections["nextjs-routing"]}>
                 <SectionList>
                   <ListItem>
-                    <HighlightedText>File-Based:</HighlightedText> Files in `pages/` map to routes (e.g., `about.js` = `/about`).
+                    <HighlightedText>App Router:</HighlightedText> Files in `app/` define routes (e.g., `app/about/page.tsx` = `/about`).
                   </ListItem>
                   <ListItem>
-                    <HighlightedText>Dynamic Routes:</HighlightedText> `[id].js` for variable paths (e.g., `/post/1`).
+                    <HighlightedText>Dynamic Routes:</HighlightedText> `app/post/[id]/page.tsx` for variable paths (e.g., `/post/1`).
                   </ListItem>
-                  <ListItem>API routes: `pages/api/` for backend endpoints.</ListItem>
-                  <ListItem>In VSCode, create `pages/about.js` and test with `npm run dev`.</ListItem>
-                  <ListItem>Tip: Use `[...slug].js` for catch-all routes.</ListItem>
+                  <ListItem>API Routes: `app/api/[route]/route.ts` for backend endpoints (e.g., `/api/hello`).</ListItem>
+                  <ListItem>In VSCode, create `app/about/page.tsx` and test with `npm run dev`.</ListItem>
+                  <ListItem>Tip: Use `app/[...slug]/page.tsx` for catch-all routes in App Router.</ListItem>
                 </SectionList>
               </SectionContent>
             </Section>

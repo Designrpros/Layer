@@ -1,26 +1,16 @@
+// src/app/styled-components/page.tsx
 "use client";
 
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import Image from "next/image";
-import Toolbar from "../../components/Toolbar";
+import Toolbar from "../../components/Toolbar"; // Adjusted to src/components/Toolbar
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
-
-// === Theme ===
-const theme = {
-  colors: {
-    backgroundLight: "#F7F4E9",
-    backgroundDark: "#2A2A2A",
-    backgroundContent: "#E8E2D1",
-    primary: "#1C2526",
-    textLight: "#333333",
-    textDark: "#FFFFFF",
-  },
-};
+import { theme } from "../../lib/theme"; // Adjusted to src/lib/theme
 
 // === Global Box Sizing Reset ===
 const GlobalStyle = styled.div`
@@ -37,7 +27,7 @@ const PageContainer = styled.div`
   min-height: 100vh;
   font-family: "Montserrat", sans-serif;
   overflow-x: hidden;
-  background: ${theme.colors.backgroundLight};
+  background: ${theme.colors.backgroundLight}; // Uses #F7F4E9
   margin: 0;
 `;
 
@@ -95,7 +85,7 @@ const HeroText = styled.div`
 const HeroTitle = styled.h1`
   font-size: 4rem;
   font-weight: 700;
-  color: ${theme.colors.textDark};
+  color: ${theme.colors.textDark}; // Uses #FFFFFF
   margin: 0;
 
   @media (max-width: 1200px) {
@@ -125,7 +115,7 @@ const HeroTitle = styled.h1`
 
 const HeroSubtitle = styled.p`
   font-size: 1.5rem;
-  color: ${theme.colors.textDark};
+  color: ${theme.colors.textDark}; // Uses #FFFFFF
   margin-top: 1rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 
@@ -227,7 +217,7 @@ const Section = styled.section`
 const SectionTitle = styled.h2`
   font-size: 2.5rem;
   font-weight: 700;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.primary}; // Uses #1C2526
   margin-bottom: 1rem;
   border-bottom: 2px solid ${theme.colors.primary};
   padding-bottom: 0.5rem;
@@ -272,7 +262,7 @@ const SectionTitle = styled.h2`
 
 const LargeText = styled.div`
   font-size: 1.25rem;
-  color: ${theme.colors.textLight};
+  color: ${theme.colors.textLight}; // Uses #333333
   line-height: 1.8;
   margin-bottom: 1.5rem;
   max-width: 100%;
@@ -321,7 +311,7 @@ const LargeText = styled.div`
 
 // === TopicCard Component ===
 const Card = styled.div<{ $isOpen: boolean }>`
-  background: ${theme.colors.backgroundContent};
+  background: ${theme.colors.backgroundContent}; // Uses #E8E2D1
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -329,7 +319,7 @@ const Card = styled.div<{ $isOpen: boolean }>`
   transition: all 0.3s ease;
 
   &:hover {
-    background: ${theme.colors.backgroundLight};
+    background: ${theme.colors.backgroundLight}; // Uses #F7F4E9
   }
 `;
 
@@ -337,12 +327,12 @@ const CardTitle = styled.h3`
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.primary}; // Uses #1C2526
 `;
 
 const CardContent = styled.div<{ $isOpen: boolean }>`
   font-size: 1rem;
-  color: ${theme.colors.textLight};
+  color: ${theme.colors.textLight}; // Uses #333333
   line-height: 1.6;
   margin-top: ${({ $isOpen }) => ($isOpen ? "1rem" : "0")};
   max-height: ${({ $isOpen }) => ($isOpen ? "1000px" : "0")};
@@ -360,21 +350,21 @@ const CardField = styled.div`
 
 const FieldLabel = styled.span`
   font-weight: 600;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.primary}; // Uses #1C2526
 `;
 
 const DiveDeeperButton = styled(Link)`
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textDark};
+  background: ${theme.colors.primary}; // Uses #1C2526
+  color: ${theme.colors.textDark}; // Uses #FFFFFF
   text-decoration: none;
   border-radius: 4px;
   margin-top: 1rem;
   transition: background 0.3s ease;
 
   &:hover {
-    background: ${theme.colors.backgroundDark};
+    background: ${theme.colors.backgroundDark}; // Uses #2A2A2A
   }
 `;
 
@@ -444,7 +434,7 @@ const TopicCard: React.FC<{
 };
 
 // === Main Component ===
-const StyledComponents: React.FC = () => {
+export default function StyledComponents() {
   const [openTopics, setOpenTopics] = useState<{ [key: number]: boolean }>({});
 
   const toggleTopic = (index: number) => {
@@ -465,7 +455,7 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Use this when starting a project or adding Styled Components to an existing Next.js app for scoped styling.",
           example:
-            "Install Styled Components and create a basic styled button:\n\n```tsx\nnpm install styled-components\n// pages/index.tsx\nimport styled from 'styled-components';\n\nconst Button = styled.button`\n  padding: 10px 20px;\n  background: #1C2526;\n  color: #fff;\n`;\n\nexport default function Home() {\n  return <Button>Click Me</Button>;\n}\n```",
+            "Install Styled Components and create a basic styled button:\n\n```tsx\nnpm install styled-components\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Button = styled.button`\n  padding: 10px 20px;\n  background: #1C2526;\n  color: #fff;\n`;\n\nexport default function Home() {\n  return <Button>Click Me</Button>;\n}\n```",
           proTip:
             "Add `babel-plugin-styled-components` to your `.babelrc` for better debugging with display names.",
           subpage: "/styled-components/getting-started",
@@ -484,7 +474,7 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Ideal for reusable components like buttons or cards that need isolated styles.",
           example:
-            "Create a styled div with unique styles:\n\n```tsx\nimport styled from 'styled-components';\n\nconst Card = styled.div`\n  padding: 20px;\n  background: #E8E2D1;\n  border-radius: 8px;\n`;\n\nexport default function Home() {\n  return <Card>My Card</Card>;\n}\n```",
+            "Create a styled div with unique styles:\n\n```tsx\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Card = styled.div`\n  padding: 20px;\n  background: #E8E2D1;\n  border-radius: 8px;\n`;\n\nexport default function Home() {\n  return <Card>My Card</Card>;\n}\n```",
           proTip:
             "Use the VSCode Styled Components extension for syntax highlighting and IntelliSense.",
           subpage: "/styled-components/scoped-styles",
@@ -496,7 +486,7 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Use this for interactive UI elements like buttons that change color when active.",
           example:
-            "Make a button that changes based on a prop:\n\n```tsx\nimport styled from 'styled-components';\n\nconst Button = styled.button<{ active?: boolean }>`\n  padding: 10px;\n  background: ${props => (props.active ? '#1C2526' : '#ccc')};\n  color: ${props => (props.active ? '#fff' : '#000')};\n`;\n\nexport default function Home() {\n  return <Button active>Active Button</Button>;\n}\n```",
+            "Make a button that changes based on a prop:\n\n```tsx\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Button = styled.button<{ active?: boolean }>`\n  padding: 10px;\n  background: ${props => (props.active ? '#1C2526' : '#ccc')};\n  color: ${props => (props.active ? '#fff' : '#000')};\n`;\n\nexport default function Home() {\n  return <Button active>Active Button</Button>;\n}\n```",
           proTip:
             "Combine props with TypeScript for type-safe dynamic styling—add `{ active?: boolean }`.",
           subpage: undefined,
@@ -508,9 +498,9 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Perfect for maintaining consistent colors, fonts, or sizes across your app.",
           example:
-            "Set up theming in Next.js:\n\n```tsx\n// components/ThemeProvider.tsx\nimport { ThemeProvider } from 'styled-components';\n\nconst theme = { colors: { primary: '#1C2526', text: '#333' } };\n\nexport default function App({ children }) {\n  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;\n}\n\n// pages/index.tsx\nimport styled from 'styled-components';\n\nconst Title = styled.h1`\n  color: ${props => props.theme.colors.primary};\n`;\n\nexport default function Home() {\n  return <Title>Hello</Title>;\n}\n```",
+            "Set up theming in Next.js:\n\n```tsx\n// components/ThemeProvider.tsx\n'use client';\n\nimport { ThemeProvider } from 'styled-components';\n\nconst theme = { colors: { primary: '#1C2526', text: '#333' } };\n\nexport default function App({ children }) {\n  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;\n}\n\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Title = styled.h1`\n  color: ${props => props.theme.colors.primary};\n`;\n\nexport default function Home() {\n  return <Title>Hello</Title>;\n}\n```",
           proTip:
-            "Wrap your app in `_app.tsx` with the `ThemeProvider` to make the theme globally available.",
+            "Wrap your app in `app/layout.tsx` with the `ThemeProvider` to make the theme globally available.",
           subpage: undefined,
         },
       ],
@@ -525,7 +515,7 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Use this for creating button variants or modifying base components efficiently.",
           example:
-            "Extend a base button:\n\n```tsx\nimport styled from 'styled-components';\n\nconst Button = styled.button`\n  padding: 10px;\n  background: #1C2526;\n  color: #fff;\n`;\n\nconst LargeButton = styled(Button)`\n  padding: 15px 30px;\n  font-size: 1.2rem;\n`;\n\nexport default function Home() {\n  return <LargeButton>Big Button</LargeButton>;\n}\n```",
+            "Extend a base button:\n\n```tsx\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Button = styled.button`\n  padding: 10px;\n  background: #1C2526;\n  color: #fff;\n`;\n\nconst LargeButton = styled(Button)`\n  padding: 15px 30px;\n  font-size: 1.2rem;\n`;\n\nexport default function Home() {\n  return <LargeButton>Big Button</LargeButton>;\n}\n```",
           proTip:
             "Use `as` prop to render a styled component as a different HTML element (e.g., `<Button as=\"a\">`).",
           subpage: "/styled-components/extending",
@@ -537,7 +527,7 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Great for hover effects, loading spinners, or transitions in your UI.",
           example:
-            "Create a fade-in animation:\n\n```tsx\nimport styled, { keyframes } from 'styled-components';\n\nconst fadeIn = keyframes`\n  from { opacity: 0; }\n  to { opacity: 1; }\n`;\n\nconst Box = styled.div`\n  animation: ${fadeIn} 1s ease-in;\n  background: #E8E2D1;\n  padding: 20px;\n`;\n\nexport default function Home() {\n  return <Box>Fading Box</Box>;\n}\n```",
+            "Create a fade-in animation:\n\n```tsx\n// app/page.tsx\n'use client';\n\nimport styled, { keyframes } from 'styled-components';\n\nconst fadeIn = keyframes`\n  from { opacity: 0; }\n  to { opacity: 1; }\n`;\n\nconst Box = styled.div`\n  animation: ${fadeIn} 1s ease-in;\n  background: #E8E2D1;\n  padding: 20px;\n`;\n\nexport default function Home() {\n  return <Box>Fading Box</Box>;\n}\n```",
           proTip:
             "Reuse `keyframes` across components by defining them outside the styled definition.",
           subpage: undefined,
@@ -556,9 +546,9 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Use this for setting default fonts, margins, or box-sizing across your entire app.",
           example:
-            "Add global styles in Next.js:\n\n```tsx\n// components/GlobalStyles.tsx\nimport { createGlobalStyle } from 'styled-components';\n\nconst GlobalStyles = createGlobalStyle`\n  * {\n    margin: 0;\n    padding: 0;\n    box-sizing: border-box;\n  }\n  body {\n    font-family: 'Montserrat', sans-serif;\n  }\n`;\n\nexport default function App({ children }) {\n  return <><GlobalStyles />{children}</>;\n}\n```",
+            "Add global styles in Next.js:\n\n```tsx\n// components/GlobalStyles.tsx\n'use client';\n\nimport { createGlobalStyle } from 'styled-components';\n\nconst GlobalStyles = createGlobalStyle`\n  * {\n    margin: 0;\n    padding: 0;\n    box-sizing: border-box;\n  }\n  body {\n    font-family: 'Montserrat', sans-serif;\n  }\n`;\n\nexport default function GlobalStylesComponent() {\n  return <GlobalStyles />;\n}\n\n// app/layout.tsx\nexport default function RootLayout({ children }) {\n  return (\n    <html lang=\"en\">\n      <body>\n        <GlobalStylesComponent />\n        {children}\n      </body>\n    </html>\n  );\n}\n```",
           proTip:
-            "Include `GlobalStyles` in `_app.tsx` to ensure it applies to all pages.",
+            "Include `GlobalStylesComponent` in `app/layout.tsx` to ensure it applies to all pages.",
           subpage: undefined,
         },
         {
@@ -568,7 +558,7 @@ const StyledComponents: React.FC = () => {
           useCase:
             "Use this in larger projects to catch styling errors during development.",
           example:
-            "Type a styled component with props and theme:\n\n```tsx\n// types/styled.d.ts\ndeclare module 'styled-components' {\n  export interface DefaultTheme {\n    colors: { primary: string; text: string };\n  }\n}\n\n// pages/index.tsx\nimport styled from 'styled-components';\n\nconst Button = styled.button<{ active?: boolean }>`\n  background: ${props => props.active ? props.theme.colors.primary : '#ccc'};\n  color: ${props => props.theme.colors.text};\n`;\n\nexport default function Home() {\n  return <Button active>Typed Button</Button>;\n}\n```",
+            "Type a styled component with props and theme:\n\n```tsx\n// types/styled.d.ts\ndeclare module 'styled-components' {\n  export interface DefaultTheme {\n    colors: { primary: string; text: string };\n  }\n}\n\n// app/page.tsx\n'use client';\n\nimport styled from 'styled-components';\n\nconst Button = styled.button<{ active?: boolean }>`\n  background: ${props => props.active ? props.theme.colors.primary : '#ccc'};\n  color: ${props => props.theme.colors.text};\n`;\n\nexport default function Home() {\n  return <Button active>Typed Button</Button>;\n}\n```",
           proTip:
             "Add a `styled.d.ts` file to define your theme interface for IntelliSense in VSCode.",
           subpage: "/styled-components/typescript",
@@ -586,7 +576,7 @@ const StyledComponents: React.FC = () => {
             <HeroImage
               src="/styled-components.svg" // Replace with a Styled Components-themed hero image
               alt="Styled Components Hero"
-              layout="fill"
+              fill
               priority
             />
             <HeroText>
@@ -654,6 +644,4 @@ const StyledComponents: React.FC = () => {
       </ThemeProvider>
     </GlobalStyle>
   );
-};
-
-export default StyledComponents;
+}
