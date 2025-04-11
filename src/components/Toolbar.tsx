@@ -1,6 +1,7 @@
+// src/components/Toolbar.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
@@ -62,7 +63,7 @@ const NavLinks = styled.div`
   justify-content: flex-end;
   flex: 1;
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     display: none;
   }
 `;
@@ -104,17 +105,17 @@ const BurgerIcon = styled.div<{ $isOpen: boolean }>`
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
-  z-index: 1001;
-  padding: 0.5rem;
+  z-index: 1002; /* Above MobileMenu */
+  padding: 0.75rem; /* Larger tap area */
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     display: flex;
   }
 
   div {
     width: 25px;
     height: 3px;
-    background-color: ${theme.colors.background}; // Changed to background for visibility
+    background-color: ${theme.colors.background};
     border-radius: 2px;
     transition: all 0.3s ease;
   }
@@ -132,6 +133,10 @@ const BurgerIcon = styled.div<{ $isOpen: boolean }>`
       transform: rotate(-45deg) translate(5px, -5px);
     }
   `}
+
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+  }
 `;
 
 const MobileMenu = styled.div<{ $isOpen: boolean }>`
@@ -139,18 +144,22 @@ const MobileMenu = styled.div<{ $isOpen: boolean }>`
   flex-direction: column;
   align-items: center;
   position: fixed;
-  top: 0;
+  top: 60px; /* Below toolbar */
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 60px); /* Fill remaining screen */
   background: ${theme.colors.primary};
-  z-index: 1000;
-  padding: 5rem 0 2rem;
+  z-index: 999; /* Below BurgerIcon */
+  padding: 2rem 0;
   box-sizing: border-box;
   overflow-y: auto;
 
-  @media (min-width: 769px) {
+  @media (min-width: 650px) {
     display: none;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0;
   }
 `;
 
@@ -160,19 +169,59 @@ const MobileNavLink = styled(Link)`
   font-weight: 600;
   color: ${theme.colors.background};
   text-decoration: none;
-  padding: 1rem;
+  padding: 1.5rem; /* Better tap targets */
   transition: color 0.3s ease;
   text-align: center;
+  width: 100%;
 
   &:hover {
     color: #e0d8c3;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.25rem;
   }
 `;
 
 // === Main Component ===
 const Toolbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const toggleMenu = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Close menu when clicking outside, excluding BurgerIcon
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        !(event.target as HTMLElement).closest(".burger-icon")
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -187,13 +236,13 @@ const Toolbar: React.FC = () => {
           <NavLink href="/resources">Resources</NavLink>
           <NavLink href="/index-page">Index</NavLink>
         </NavLinks>
-        <BurgerIcon $isOpen={isOpen} onClick={toggleMenu}>
+        <BurgerIcon className="burger-icon" $isOpen={isOpen} onClick={toggleMenu}>
           <div></div>
           <div></div>
           <div></div>
         </BurgerIcon>
       </ToolbarContainer>
-      <MobileMenu $isOpen={isOpen}>
+      <MobileMenu ref={menuRef} $isOpen={isOpen}>
         <MobileNavLink href="/basics" onClick={toggleMenu}>
           Basics
         </MobileNavLink>
